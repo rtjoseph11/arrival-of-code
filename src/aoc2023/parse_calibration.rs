@@ -15,8 +15,8 @@ pub fn calc_calibration_1() -> Result<i32, String> {
             Ok(r) => r,
             Err(e) => return Err(e.to_string()),
         };
-        let left = maybe_char_to_int(raw.as_str().chars().find(|c| c.is_numeric())) * 10;
-        let right = maybe_char_to_int(raw.as_str().chars().rfind(|c| c.is_numeric()));
+        let left = char_to_int(raw.as_str().chars().find(|c| c.is_numeric()).unwrap_or('0')) * 10;
+        let right = char_to_int(raw.as_str().chars().rfind(|c| c.is_numeric()).unwrap_or('0'));
         result += left + right;
 
     }
@@ -53,7 +53,7 @@ fn line_to_int(line: &str) -> i32 {
     for c in line.chars() {
         current += c.to_string().as_str();
         if c.is_numeric() {
-            result += 10 * maybe_char_to_int(Some(c));
+            result += 10 * char_to_int(c);
             break;
         } else {
             match str_is_digit(current.as_str(), true) {
@@ -70,7 +70,7 @@ fn line_to_int(line: &str) -> i32 {
     for c in line.chars().rev() {
         current = c.to_string() + current.as_str();
         if c.is_numeric() {
-            result += maybe_char_to_int(Some(c));
+            result += char_to_int(c);
             break;
         } else {
             match str_is_digit(current.as_str(), false) {
@@ -96,6 +96,6 @@ fn str_is_digit(raw: &str, is_left: bool) -> Option<i32> {
     }).map(|(_, v)| *v);
 }
 
-fn maybe_char_to_int(maybe_c: Option<char>) -> i32 {
-    maybe_c.map(|c| c.to_digit(10).map(|x| x as i32)).flatten().unwrap_or_default()
+fn char_to_int(c: char) -> i32 {
+    return c.to_digit(10).map(|x| x as i32).unwrap_or(0);
 }
