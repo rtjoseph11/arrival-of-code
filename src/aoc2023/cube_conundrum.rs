@@ -18,7 +18,7 @@ struct Game {
 
 fn get_games() -> Vec<Game> {
     let mut result = Vec::new();
-    let lines = match read_lines("./src/aoc2023/2023_advent_of_code_2.txt") {
+    let lines = match read_lines("./src/aoc2023/data/2023_advent_of_code_2.txt") {
         Ok(f) => f,
         Err(e) => {
             println!("failed to read file: {}", e);

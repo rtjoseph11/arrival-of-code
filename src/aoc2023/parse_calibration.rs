@@ -2,7 +2,7 @@ use crate::utils::file::read_lines;
 use std::collections::HashMap;
 
 pub fn calc_calibration_1() -> Result<i32, String> {
-    let lines = match read_lines("./src/aoc2023/2023_advent_of_code_1.txt") {
+    let lines = match read_lines("./src/aoc2023/data/2023_advent_of_code_1.txt") {
         Ok(f) => f,
         Err(e) => {
             println!("failed to read file: {}", e);
