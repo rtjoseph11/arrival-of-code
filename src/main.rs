@@ -1,7 +1,7 @@
 mod aoc2023;
 mod utils;
-use crate::aoc2023::cube_conundrum::part_two;
+use crate::aoc2023::gear_ratio::part_one;
 
 fn main() {
-    println!("result 1 is: {}", part_two());
+    println!("schematic is: {:?}", part_one());
 }
