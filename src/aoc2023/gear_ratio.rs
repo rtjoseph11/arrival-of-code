@@ -42,7 +42,7 @@ pub fn part_one() -> i32 {
         for (j, cell) in row.iter().enumerate() {
             match cell {
                 Some(Right(_)) => {
-                    result += find_numbers_sum(&schematic, &mut seen, i, j);
+                    result += find_numbers(&schematic, &mut seen, i, j).iter().fold(0, |acc, curr| acc + curr);
                 },
                 _ => (),
 
@@ -52,9 +52,30 @@ pub fn part_one() -> i32 {
     return result;
 }
 
-fn find_numbers_sum(schematic: &Schematic, seen: &mut HashSet<(usize, usize)>, i: usize, j: usize) -> i32 {
-    let needles = [(i - 1, j - 1,), (i - 1, j), (i - 1, j + 1), (i, j - 1), (i, j + 1), (i + 1, j - 1,), (i + 1, j), (i + 1, j + 1)];
+pub fn part_two() -> i32 {
+    let schematic = get_schematic();
+    let mut seen = HashSet::new();
     let mut result = 0;
+    for (i, row) in schematic.iter().enumerate() {
+        for (j, cell) in row.iter().enumerate() {
+            match cell {
+                Some(Right('*')) => {
+                    let numbers = find_numbers(&schematic, &mut seen, i, j);
+                    if numbers.len() == 2 {
+                        result += numbers.iter().fold(1, |acc, curr| acc * curr);
+                    }
+                },
+                _ => (),
+
+            }
+        }
+    }
+    return result;
+}
+
+fn find_numbers(schematic: &Schematic, seen: &mut HashSet<(usize, usize)>, i: usize, j: usize) -> Vec<i32> {
+    let needles = [(i - 1, j - 1,), (i - 1, j), (i - 1, j + 1), (i, j - 1), (i, j + 1), (i + 1, j - 1,), (i + 1, j), (i + 1, j + 1)];
+    let mut result = Vec::new();
 
     for (test_i, test_j) in needles {
         let mut curr_j = test_j;
@@ -86,7 +107,7 @@ fn find_numbers_sum(schematic: &Schematic, seen: &mut HashSet<(usize, usize)>, i
         let next = building.iter().rev().enumerate().fold(0, |acc, (x, y)| {
             return acc + (y * 10_i32.pow(x.try_into().unwrap()));
         });
-        result += next;
+        result.push(next);
     }
     return result;
 }
